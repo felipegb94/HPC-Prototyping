@@ -33,9 +33,7 @@ int main(int argc, char **argv)
     else{
         printf("Cuda is not enabled\n");
     }
-    // {
-    //     std::cout << "WORKING!" <<std::endl;
-    // }
+
     calculateArea(numRects, &area);
     std::cout << "Pi = " << 4*area << std::endl;
 
