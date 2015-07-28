@@ -22,6 +22,14 @@ ccmake PATH/TO/HPC-Prototyping/UnifiedMemoryExperiments/CalculatePi/
 make
 ```
 
+#### Understanding the code
+
+The code is not very long and is well documented. Stepping through it should be relatively trivial and as long as you read the comments you should be able to understand it. 
+
+For an extensive analysis of this code please refer to the following technical report: 
+
+ADD LINK TO TECHNICAL REPORT.
+#### Usage
 In order to choose if you want to run the serial, CPU parallel or GPU parallel version of the code modify the following lines at the top of CMakeLists.txt:
 
 ```
@@ -54,6 +62,8 @@ The following combinations lead to use of serial implementation:
 set(CUDA_ENABLED 0)
 set(OPENMP_ENABLED 0)
 ```
+
+
 
 
 
