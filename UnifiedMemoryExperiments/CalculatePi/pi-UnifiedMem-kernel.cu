@@ -32,8 +32,10 @@
  */
 #if CUDA_ENABLED
     #define nthreads 1024
-    #define NUMBLOCKS(n) ceil(n/nthreads)
-    #define KERNEL(n) <<<NUMBLOCKS(n), nthreads>>> /* Necessary for kernels */
+    #define getGridDim(n) (int)ceil(sqrt(n/nthreads))
+    #define GRID(n) dim3(getGridDim(n), getGridDim(n))
+    #define BLOCK(n) dim3(nthreads)
+    #define KERNEL(n) <<<GRID(n), BLOCK(n)>>> /* Necessary for kernels */
 #else
     #define KERNEL(n) /* Empty code */
 #endif
@@ -60,7 +62,7 @@
 #if CUDA_ENABLED
 __global__ 
 #endif
-void calculateAreas(const int numRects, const double width, double *areas) 
+void calculateAreas(const long numRects, const double width, double *areas) 
 {
 /* If cuda is enabled calculate the threadId which gives us the index in areas */   
 #if CUDA_ENABLED
@@ -90,13 +92,18 @@ void calculateAreas(const int numRects, const double width, double *areas)
     }
 }
 
-void calculateArea(const int numRects, double *area) {
+void calculateArea(const long numRects, double *area) {
 
     cudaError_t err;
-    int dimensions = (int)ceil(sqrt(numRects/nthreads));
-    dim3 blockDim(nthreads);
-    dim3 gridDim(dimensions,dimensions);
-    std::cout << "dimensions = " << dimensions << std::endl;    
+
+    if(getGridDim(numRects) >= 65535)
+    {
+        fprintf(stderr, "Error: WAY TOO MANY RECTANGLES. Do you really want to compute more than 4.3979123e+12 rectangles!!!! Please input less rectangles");
+        return;
+    }
+
+    std::cout << "Grid Dimensions = " << getGridDim(numRects) << std::endl;
+
     /* Allocate areas in unified memory */
     double *unifiedAreas;
     err = cudaMallocManaged(&unifiedAreas, numRects * sizeof(double));
@@ -110,7 +117,7 @@ void calculateArea(const int numRects, double *area) {
     /* Call calculateAreas function. This function can be a CUDA kernel or a normal function depending of what is specified in CMakeLists.txt.
     Note: Unified memory allows us to send the same pointer to the allocated memory, no matter if we plan to use GPU memory or CPU memory in the function.
     */
-    calculateAreas<<<gridDim,blockDim>>> (numRects, (1.0 / numRects), unifiedAreas);
+    calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), unifiedAreas);
 
 
 #if CUDA_ENABLED
