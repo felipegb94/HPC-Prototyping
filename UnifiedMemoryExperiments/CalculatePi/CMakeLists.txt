@@ -12,6 +12,7 @@ find_package("CUDA")
 
 add_definitions( -DCUDA_ENABLED=${CUDA_ENABLED} )
 add_definitions( -DOPENMP_ENABLED=${OPENMP_ENABLED} )
+add_definitions( -DNUM_RECTS=${NUM_RECTS} )
 
 
 # If OPENMP was found and it is enabled compile with its flags

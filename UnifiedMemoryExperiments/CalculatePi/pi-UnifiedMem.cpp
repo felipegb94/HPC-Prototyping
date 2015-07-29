@@ -8,7 +8,7 @@
  ************************/
 int main(int argc, char **argv) 
 {
-    long numRects =3e9;
+    long numRects = NUM_RECTS;
     std::cout << "NumRects being used = " << numRects << std::endl;
 
     double area = 0.0;
