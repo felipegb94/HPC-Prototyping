@@ -31,7 +31,7 @@
  * 
  */
 #if CUDA_ENABLED
-    #define nthreads 512
+    #define nthreads 1024
     #define NUMBLOCKS(n) ceil(n/nthreads)
     #define KERNEL(n) <<<NUMBLOCKS(n), nthreads>>> /* Necessary for kernels */
 #else
@@ -64,7 +64,10 @@ void calculateAreas(const int numRects, const double width, double *areas)
 {
 /* If cuda is enabled calculate the threadId which gives us the index in areas */   
 #if CUDA_ENABLED
-    int threadId = threadIdx.x + (blockIdx.x * blockDim.x);
+    /* Calculate threadId for 1D grid 1D block*/
+    //int threadId = threadIdx.x + (blockIdx.x * blockDim.x);
+    /* Calculate threadId for 2D grid 1D block*/
+    int threadId = (blockIdx.y*gridDim.x + blockIdx.x)*blockDim.x + threadIdx.x;
     if(threadId >= numRects)
     {
         return;
@@ -90,7 +93,10 @@ void calculateAreas(const int numRects, const double width, double *areas)
 void calculateArea(const int numRects, double *area) {
 
     cudaError_t err;
-
+    int dimensions = (int)ceil(sqrt(numRects/nthreads));
+    dim3 blockDim(nthreads);
+    dim3 gridDim(dimensions,dimensions);
+    std::cout << "dimensions = " << dimensions << std::endl;    
     /* Allocate areas in unified memory */
     double *unifiedAreas;
     err = cudaMallocManaged(&unifiedAreas, numRects * sizeof(double));
@@ -104,7 +110,7 @@ void calculateArea(const int numRects, double *area) {
     /* Call calculateAreas function. This function can be a CUDA kernel or a normal function depending of what is specified in CMakeLists.txt.
     Note: Unified memory allows us to send the same pointer to the allocated memory, no matter if we plan to use GPU memory or CPU memory in the function.
     */
-    calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), unifiedAreas);
+    calculateAreas<<<gridDim,blockDim>>> (numRects, (1.0 / numRects), unifiedAreas);
 
 
 #if CUDA_ENABLED

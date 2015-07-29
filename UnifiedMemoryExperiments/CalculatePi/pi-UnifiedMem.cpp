@@ -8,7 +8,7 @@
  ************************/
 int main(int argc, char **argv) 
 {
-    long numRects = 2e9;
+    long numRects =1e10;
     double area = 0.0;
 
     if(CUDA_ENABLED){
