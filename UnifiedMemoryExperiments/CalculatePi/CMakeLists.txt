@@ -7,8 +7,8 @@ find_package("OpenMP")
 find_package("CUDA")
 
 # Set if we want to use CUDA, OPENMP or neither
-set(CUDA_ENABLED 1)
-set(OPENMP_ENABLED 0)
+#set(CUDA_ENABLED 1)
+#set(OPENMP_ENABLED 0)
 
 add_definitions( -DCUDA_ENABLED=${CUDA_ENABLED} )
 add_definitions( -DOPENMP_ENABLED=${OPENMP_ENABLED} )
