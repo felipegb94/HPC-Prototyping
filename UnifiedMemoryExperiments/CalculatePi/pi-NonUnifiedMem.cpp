@@ -24,7 +24,7 @@
  ************************/
 int main(int argc, char **argv) 
 {
-    int numRects = 1e10;
+    long numRects = 1e10;
     double area = 0.0;
 
     if(CUDA_ENABLED){

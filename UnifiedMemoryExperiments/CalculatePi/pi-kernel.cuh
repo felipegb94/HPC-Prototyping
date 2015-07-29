@@ -1,2 +1,2 @@
-void calculateArea(const int numRects, double *area);
+void calculateArea(const long numRects, double *area);
 

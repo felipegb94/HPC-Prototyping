@@ -8,7 +8,9 @@
  ************************/
 int main(int argc, char **argv) 
 {
-    long numRects =1e10;
+    long numRects =2e9;
+    std::cout << "NumRects being used = " << numRects << std::endl;
+
     double area = 0.0;
 
     if(CUDA_ENABLED){
@@ -23,7 +25,6 @@ int main(int argc, char **argv)
 
     calculateArea(numRects, &area);
 
-    std::cout << "NumRects used = " << numRects << std::endl;
     std::cout << "Pi = " << 4*area << std::endl;
 
   return 0;
