@@ -7,6 +7,10 @@
 #include <float.h> /* DBL_EPSILON() */
 #include <math.h> /* sqrt() */
 
+#include <thrust/reduce.h>
+#include <thrust/system/cuda/execution_policy.h>
+#include <thrust/system/omp/execution_policy.h>
+
 /* Only add openmp if it will be used */
 #if OPENMP_ENABLED
     #include <omp.h>
@@ -36,6 +40,26 @@
 #else
     #define KERNEL(n) /* Empty code */
 #endif
+
+/**
+ * @brief calculateAreas kernel
+ * @details 
+ *         * threadId: Index in the areas area. Tells us where to store the calculated area. With 
+ *         CUDA this is calculated with threadId and blockId. In serial and OpenMP this is the 
+ *         obtained by the for loop counter.       
+ *         * x: Current x coordinate
+ *         * heightSq: height of rectangle squared
+ * 
+ * @param numRects numRects we are going to use to estimate the area under the curve. This defines
+ * how big our problem size will be. This is the n in KERNEL(n).
+ * 
+ * @param width of rectangle
+ * 
+ * @param areas Pre allocated array that will contain  areas. --> This array was allocated with 
+ * cudaMallocManaged() function which is what leads to UnifiedMemory.
+ * 
+ * @return fills the areas array
+ */
 
 #if CUDA_ENABLED
 __global__ 
@@ -67,20 +91,139 @@ void calculateAreas(const long numRects, const double width, double *dev_areas)
         dev_areas[threadId] = (width * height);   
 
         /* Add Extra computations in order to be able to see the performance difference between CPU and GPU */
+        // x = sqrt((float)threadId) * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = sqrt((float)x) * sqrt((float)x);
+        // heightSq = 1 - (pow(x,4)*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * pow(x,0.5)); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = sqrt((float)threadId) * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = sqrt((float)x) * sqrt((float)x);
+        // heightSq = 1 - (pow(x,4)*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * pow(x,0.5)); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = sqrt((float)threadId) * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = sqrt((float)x) * sqrt((float)x);
+        // heightSq = 1 - (pow(x,4)*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * pow(x,0.5)); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = sqrt((float)threadId) * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = sqrt((float)x) * sqrt((float)x);
+        // heightSq = 1 - (pow(x,4)*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * height); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // dev_areas[threadId] = (width * pow(x,0.5)); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        // dev_areas[threadId] = (width * height); 
     }
 }
 
 void calculateArea(const long numRects, double *area) {
 
     cudaError_t err;
-
+#if CUDA_ENABLED
     if(getGridDim(numRects) >= 65535)
     {
         fprintf(stderr, "Error: WAY TOO MANY RECTANGLES. Do you really want to compute more than 4.3979123e+12 rectangles!!!! Please input less rectangles");
         return;
     }
-    
     std::cout << "Grid Dimensions = " << getGridDim(numRects) << std::endl;
+#endif   
 
     /* Allocate areas in host */
     double *areas = (double*)malloc(numRects * sizeof(double));
@@ -103,21 +246,43 @@ void calculateArea(const long numRects, double *area) {
     }
 
 #if CUDA_ENABLED
+
+    cudaEvent_t startKernel, stopKernel, stopSync;
+    cudaEventCreate(&startKernel);
+    cudaEventCreate(&stopKernel);
+    cudaEventCreate(&stopSync);
+    
+    cudaEventRecord(startKernel);
     calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), dev_areas);
-    err = cudaMemcpy(areas, dev_areas, (numRects * sizeof(double)), cudaMemcpyDeviceToHost);
-    if (err != cudaSuccess) 
-    {
-        fprintf(stderr, "cudaMalloc failed: %s\n", cudaGetErrorString(err));
-    }
+    cudaEventRecord(stopKernel);
+
+    // err = cudaMemcpy(areas, dev_areas, (numRects * sizeof(double)), cudaMemcpyDeviceToHost);
+    // if (err != cudaSuccess) 
+    // {
+    //     fprintf(stderr, "cudaMalloc failed: %s\n", cudaGetErrorString(err));
+    // }
+    cudaEventRecord(stopSync);
+
+    cudaEventSynchronize(stopKernel);
+    cudaEventSynchronize(stopSync);
+    float milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, startKernel, stopKernel);
+    std::cout << "Kernel execution time = " << milliseconds/1000 << std::endl;
+    cudaEventElapsedTime(&milliseconds, startKernel, stopSync);
+    std::cout << "Kernel execution + sync time = " << milliseconds/1000 << std::endl;
+
+    (*area) = thrust::reduce(thrust::cuda::par, dev_areas, dev_areas + numRects);
+
 #else 
     calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), areas);
-#endif
-
     (*area) = 0.0;
     for (i = 0; i < numRects; i++) 
     {
         (*area) += areas[i];
     }
+#endif
+
+
     cudaFree(dev_areas);
     free(areas);
 }

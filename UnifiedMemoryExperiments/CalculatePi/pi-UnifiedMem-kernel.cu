@@ -89,6 +89,126 @@ void calculateAreas(const long numRects, const double width, double *areas)
         areas[threadId] = (width * height);   
 
         /* Add Extra computations in order to be able to see the performance difference between CPU and GPU */
+        // x = sqrt((float)threadId) * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = sqrt((float)x) * sqrt((float)x);
+        // heightSq = 1 - (pow(x,4)*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * pow(x,0.5)); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = sqrt((float)threadId) * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = sqrt((float)x) * sqrt((float)x);
+        // heightSq = 1 - (pow(x,4)*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * pow(x,0.5)); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = sqrt((float)threadId) * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = sqrt((float)x) * sqrt((float)x);
+        // heightSq = 1 - (pow(x,4)*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * pow(x,0.5)); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = sqrt((float)threadId) * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * pow(width,3);
+        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = sqrt((float)x) * sqrt((float)x);
+        // heightSq = 1 - (pow(x,4)*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * height); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        // areas[threadId] = (width * pow(x,0.5)); 
+
+        // x = threadId * width;
+        // heightSq = 1 - (x*x);
+        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        // areas[threadId] = (width * height); 
+
     }
 }
 
@@ -96,6 +216,7 @@ void calculateArea(const long numRects, double *area) {
 
     cudaError_t err;
 
+#if CUDA_ENABLED
     if(getGridDim(numRects) >= 65535)
     {
         fprintf(stderr, "Error: WAY TOO MANY RECTANGLES. Do you really want to compute more than 4.3979123e+12 rectangles!!!! Please input less rectangles");
@@ -103,7 +224,7 @@ void calculateArea(const long numRects, double *area) {
     }
 
     std::cout << "Grid Dimensions = " << getGridDim(numRects) << std::endl;
-
+#endif
     /* Allocate areas in unified memory */
     double *unifiedAreas;
     err = cudaMallocManaged(&unifiedAreas, numRects * sizeof(double));
@@ -117,12 +238,32 @@ void calculateArea(const long numRects, double *area) {
     /* Call calculateAreas function. This function can be a CUDA kernel or a normal function depending of what is specified in CMakeLists.txt.
     Note: Unified memory allows us to send the same pointer to the allocated memory, no matter if we plan to use GPU memory or CPU memory in the function.
     */
+   
+    cudaEvent_t startKernel, stopKernel, stopSync;
+    cudaEventCreate(&startKernel);
+    cudaEventCreate(&stopKernel);
+    cudaEventCreate(&stopSync);
+    float milliseconds = 0;
+
+
+    cudaEventRecord(startKernel);
     calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), unifiedAreas);
+    cudaEventRecord(stopKernel);
 
 
 #if CUDA_ENABLED
     /* If cuda is enabled we want to do the reduce in GPU */
     cudaDeviceSynchronize(); // Synchronize the valued calculated in the kernel.
+    cudaEventRecord(stopSync);
+    
+    cudaEventSynchronize(stopKernel);
+    cudaEventSynchronize(stopSync);
+
+    cudaEventElapsedTime(&milliseconds, startKernel, stopKernel);
+    std::cout << "Kernel execution time = " << milliseconds/1000 << std::endl;
+    cudaEventElapsedTime(&milliseconds, startKernel, stopSync);
+    std::cout << "Kernel execution + sync time = " << milliseconds/1000 << std::endl;
+
     (*area) = thrust::reduce(thrust::cuda::par, unifiedAreas, unifiedAreas + numRects);
 
 #elif OPENMP_ENABLED
@@ -136,6 +277,8 @@ void calculateArea(const long numRects, double *area) {
         (*area) += unifiedAreas[i];
     }
 #endif
+
+
 
     cudaFree(unifiedAreas);
 }

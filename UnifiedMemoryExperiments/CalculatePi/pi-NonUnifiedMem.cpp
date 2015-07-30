@@ -24,8 +24,9 @@
  ************************/
 int main(int argc, char **argv) 
 {
-    long numRects = 1e10;
+    long numRects = 1e7;
     double area = 0.0;
+    std::cout << "NumRects being used = " << numRects << std::endl;
 
     if(CUDA_ENABLED){
         printf("CUDA is enabled\n");
