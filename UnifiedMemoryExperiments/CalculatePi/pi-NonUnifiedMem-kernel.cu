@@ -247,11 +247,12 @@ void calculateArea(const long numRects, double *area) {
 
 #if CUDA_ENABLED
 
-    cudaEvent_t startKernel, stopKernel, stopSync;
+    cudaEvent_t startKernel, stopKernel, stopSync, stopAll;
     cudaEventCreate(&startKernel);
     cudaEventCreate(&stopKernel);
     cudaEventCreate(&stopSync);
-    
+    cudaEventCreate(&stopAll);
+
     cudaEventRecord(startKernel);
     calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), dev_areas);
     cudaEventRecord(stopKernel);
@@ -261,17 +262,21 @@ void calculateArea(const long numRects, double *area) {
     // {
     //     fprintf(stderr, "cudaMalloc failed: %s\n", cudaGetErrorString(err));
     // }
-    cudaEventRecord(stopSync);
+    //cudaEventRecord(stopSync);
 
     cudaEventSynchronize(stopKernel);
     cudaEventSynchronize(stopSync);
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, startKernel, stopKernel);
     std::cout << "Kernel execution time = " << milliseconds/1000 << std::endl;
-    cudaEventElapsedTime(&milliseconds, startKernel, stopSync);
-    std::cout << "Kernel execution + sync time = " << milliseconds/1000 << std::endl;
+    //cudaEventElapsedTime(&milliseconds, startKernel, stopSync);
+    //std::cout << "Kernel execution + sync time = " << milliseconds/1000 << std::endl;
 
     (*area) = thrust::reduce(thrust::cuda::par, dev_areas, dev_areas + numRects);
+    cudaEventRecord(stopAll);
+    cudaEventSynchronize(stopAll);
+    cudaEventElapsedTime(&milliseconds, startKernel, stopAll);
+    std::cout << "Kernel execution + thrust reduce time = " << milliseconds/1000 << std::endl;
 
 #else 
     calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), areas);

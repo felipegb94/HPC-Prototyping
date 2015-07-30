@@ -239,10 +239,12 @@ void calculateArea(const long numRects, double *area) {
     Note: Unified memory allows us to send the same pointer to the allocated memory, no matter if we plan to use GPU memory or CPU memory in the function.
     */
    
-    cudaEvent_t startKernel, stopKernel, stopSync;
+    cudaEvent_t startKernel, stopKernel, stopSync, stopAll;
     cudaEventCreate(&startKernel);
     cudaEventCreate(&stopKernel);
     cudaEventCreate(&stopSync);
+    cudaEventCreate(&stopAll);
+
     float milliseconds = 0;
 
 
@@ -265,6 +267,12 @@ void calculateArea(const long numRects, double *area) {
     std::cout << "Kernel execution + sync time = " << milliseconds/1000 << std::endl;
 
     (*area) = thrust::reduce(thrust::cuda::par, unifiedAreas, unifiedAreas + numRects);
+
+    cudaEventRecord(stopAll);
+    cudaEventSynchronize(stopAll);
+
+    cudaEventElapsedTime(&milliseconds, startKernel, stopAll);
+    std::cout << "Kernel execution + thrust reduce time = " << milliseconds/1000 << std::endl;
 
 #elif OPENMP_ENABLED
     /* If cuda is not enabled but openmp is we want to do the reduce in the cpu with openmp */
