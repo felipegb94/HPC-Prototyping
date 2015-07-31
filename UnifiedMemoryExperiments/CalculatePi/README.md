@@ -26,6 +26,8 @@ make
 
 The code is not very long and is well documented. Stepping through it should be relatively trivial and as long as you read the comments you should be able to understand it. 
 
+To find different timing plots obtained from this code see the PerformanceComparisson.ppt document.
+
 For an extensive analysis of this code please refer to the following technical report: 
 
 ADD LINK TO TECHNICAL REPORT.
