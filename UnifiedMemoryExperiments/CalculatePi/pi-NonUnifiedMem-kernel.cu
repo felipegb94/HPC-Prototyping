@@ -266,6 +266,7 @@ void calculateArea(const long numRects, double *area) {
 
     cudaEventSynchronize(stopKernel);
     cudaEventSynchronize(stopSync);
+
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, startKernel, stopKernel);
     std::cout << "Kernel execution time = " << milliseconds/1000 << std::endl;
@@ -274,6 +275,7 @@ void calculateArea(const long numRects, double *area) {
 
     (*area) = thrust::reduce(thrust::cuda::par, dev_areas, dev_areas + numRects);
     cudaEventRecord(stopAll);
+    
     cudaEventSynchronize(stopAll);
     cudaEventElapsedTime(&milliseconds, startKernel, stopAll);
     std::cout << "Kernel execution + thrust reduce time = " << milliseconds/1000 << std::endl;
