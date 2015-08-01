@@ -45,29 +45,29 @@ int main()
 
     /* Do Permutation Testing */
     /* N x V matrix*/
-    // int N = data.n_rows; 
-    // int num_permutations = permutations.n_rows;
-    // arma::mat T = arma::zeros(permutations.n_rows, data.n_cols);
+    int N = data.n_rows; 
+    int num_permutations = permutations.n_rows;
+    arma::mat T = arma::zeros(permutations.n_rows, data.n_cols);
 
-    // /* Permutation loop */
-    // //#pragma omp parallel for
-    // for(int i = 0;i < num_permutations ;i++ )
-    // {
-    //     std::cout << "Permutation " << i << std::endl;
-    //     arma::urowvec label_j(1, N);
-    //     for(int j = 0; j < N; j++)
-    //     {
-    //         label_j(j) = permutations(i, j) - 1;
-    //     }
-    //     arma::mat group1 = data.rows(label_j(arma::span(0, N_g1-1)));
-    //     arma::mat group2 = data.rows(label_j(arma::span(N_g1, N-1)));   
+    /* Permutation loop */
+    //#pragma omp parallel for
+    for(int i = 0;i < num_permutations ;i++ )
+    {
+        std::cout << "Permutation " << i << std::endl;
+        arma::urowvec label_j(1, N);
+        for(int j = 0; j < N; j++)
+        {
+            label_j(j) = permutations(i, j) - 1;
+        }
+        arma::mat group1 = data.rows(label_j(arma::span(0, N_g1-1)));
+        arma::mat group2 = data.rows(label_j(arma::span(N_g1, N-1)));   
 
-    //     arma::mat tstat = ttest2(group1, group2);
-    //     T(i, arma::span::all) = tstat;
-    // }
+        arma::mat tstat = ttest2(group1, group2);
+        T(i, arma::span::all) = tstat;
+    }
 
-    // std::cout << T.n_rows << std::endl;
-    // std::cout << T.n_cols << std::endl;
+    std::cout << T.n_rows << std::endl;
+    std::cout << T.n_cols << std::endl;
 
 
 
