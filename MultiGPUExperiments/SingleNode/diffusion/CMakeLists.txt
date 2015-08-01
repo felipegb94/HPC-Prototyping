@@ -10,8 +10,8 @@ project(diffusion)
 #set(CUDA_ENABLED 1)
 #set(OPENMP_ENABLED 0)
 
-set(NROWS 5)
-set(NCOLS 5)
+set(NROWS 100)
+set(NCOLS 100)
 
 add_definitions( -DNROWS=${NROWS} )
 add_definitions( -DNCOLS=${NCOLS} )

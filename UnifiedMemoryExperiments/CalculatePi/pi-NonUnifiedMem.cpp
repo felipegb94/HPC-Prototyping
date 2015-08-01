@@ -24,7 +24,7 @@
  ************************/
 int main(int argc, char **argv) 
 {
-    long numRects = 5e8;
+    long numRects = 1e9;
     double area = 0.0;
     std::cout << "NumRects being used = " << numRects << std::endl;
 
