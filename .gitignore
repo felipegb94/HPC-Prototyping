@@ -1,1 +1,8 @@
 MultiGPUExperiments/SingleNode/diffusion/build
+Algorithms/PermutationTesting_CUDA/build
+Algorithms/PermutationTesting_CUDA/data
+Algorithms/PermutationTesting_OpenMP/build
+Algorithms/PermutationTesting_OpenMP/include/armadillo_bits
+armadillo
+Algorithms/PermutationTesting_OpenMP/data/RawADRC/adrc_raw.arma
+Algorithms/PermutationTesting_OpenMP/data/RawADRC/permutations.arma
