@@ -1,9 +1,13 @@
 cmake_minimum_required (VERSION 2.8)
 
-project(PermTesting_OpenMP)
+project(PermTesting_OpenMP CXX)
+
+# Armadillo needs to be compiled for C++11 in order to use large matrices
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 
 # Finda CUDA and OPENMP
-#find_package("OpenMP")
+find_package("OpenMP")
 #find_package("CUDA")
 #find_package(Boost)
 ## Set if we want to use CUDA, OPENMP or neither
@@ -12,10 +16,10 @@ project(PermTesting_OpenMP)
 #add_definitions( -DCUDA_ENABLED=${CUDA_ENABLED} )
 #add_definitions( -DOPENMP_ENABLED=${OPENMP_ENABLED} )
 ## If OPENMP was found and it is enabled compile with its flags
-#if (OPENMP_FOUND)
-#    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-#    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-#endif()
+if (OPENMP_FOUND)
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
 #cuda_include_directories(${CUDA_SDK_ROOT_DIR}/common/inc)
 #cuda_include_directories(/opt/cuda/4.1/cuda/include)
 #include_directories(${CUDA_SDK_ROOT_DIR}/common/inc)

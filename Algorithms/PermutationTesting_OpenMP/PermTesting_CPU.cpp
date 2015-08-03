@@ -1,6 +1,6 @@
 #include <math.h>
 //#include <omp.h>
-#include "include/armadillo"
+#include "/home/felipegb94/include/armadillo"
 
 arma::mat ttest2(arma::mat group1, arma::mat group2)
 {
@@ -25,8 +25,8 @@ arma::mat ttest2(arma::mat group1, arma::mat group2)
 
 int main()
 {
-    std::string dataPath = "../data/RawADRC/adrc_raw.arma";
-    std::string permutationsPath = "../data/RawADRC/permutations.arma";
+    std::string dataPath = "/home/felipegb94/data/RawADRC/adrc_raw.arma";
+    std::string permutationsPath = "/home/felipegb94/data/RawADRC/permutations.arma";
     int N_g1 = 25;
 
     arma::mat data;
@@ -48,9 +48,9 @@ int main()
     int N = data.n_rows; 
     int num_permutations = permutations.n_rows;
     arma::mat T = arma::zeros(permutations.n_rows, data.n_cols);
-
+    arma::mat MaxT = arma::zeros(permutations.n_rows, 1);
     /* Permutation loop */
-    //#pragma omp parallel for
+    #pragma omp parallel for
     for(int i = 0;i < num_permutations ;i++ )
     {
         std::cout << "Permutation " << i << std::endl;
@@ -65,6 +65,8 @@ int main()
         arma::mat tstat = ttest2(group1, group2);
         T(i, arma::span::all) = tstat;
     }
+    MaxT = arma::max(T,1);
+    MaxT.save("RawADRC_MaxT_10000.csv", arma::csv_ascii);
 
     std::cout << T.n_rows << std::endl;
     std::cout << T.n_cols << std::endl;
