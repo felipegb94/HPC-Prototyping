@@ -4,7 +4,7 @@ project(diffusion)
 
 # Find both CUDA and OPENMP
 #find_package("OpenMP")
-#find_package("CUDA")
+find_package("CUDA")
 
 ## Set if we want to use CUDA, OPENMP or neither
 #set(CUDA_ENABLED 1)
@@ -27,22 +27,20 @@ add_definitions( -DNCOLS=${NCOLS} )
 #    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 #endif()
 
-#cuda_include_directories(${CUDA_SDK_ROOT_DIR}/common/inc)
-#cuda_include_directories(/opt/cuda/4.1/cuda/include)
-#include_directories(${CUDA_SDK_ROOT_DIR}/common/inc)
-#cuda_include_directories(${CUDA_SDK_ROOT_DIR}/../shared/inc)
+cuda_include_directories(${CUDA_SDK_ROOT_DIR}/common/inc)
+cuda_include_directories(/opt/cuda/4.1/cuda/include)
+include_directories(${CUDA_SDK_ROOT_DIR}/common/inc)
+cuda_include_directories(${CUDA_SDK_ROOT_DIR}/../shared/inc)
+MATH (EXPR arch 8*${CMAKE_SIZEOF_VOID_P})
+find_library(LIBSHRUTIL NAMES shrUtils${arch} shrutil_${CMAKE_SYSTEM_PROCESSOR} PATHS ${CUDA_SDK_LIB_DIR})
+find_library(LIBSHRUTIL_DBG NAMES shrUtils${arch}D shrutil_${CMAKE_SYSTEM_PROCESSOR}D PATHS ${CUDA_SDK_LIB_DIR})
 
-#MATH (EXPR arch 8*${CMAKE_SIZEOF_VOID_P})
+macro(set_compute_capability cc)
+        list(APPEND CUDA_NVCC_FLAGS "-gencode=arch=compute_${cc},code=sm_${cc}")
+        list(APPEND CUDA_NVCC_FLAGS "-gencode=arch=compute_${cc},code=compute_${cc}")
+endmacro(set_compute_capability)
 
-#find_library(LIBSHRUTIL NAMES shrUtils${arch} shrutil_${CMAKE_SYSTEM_PROCESSOR} PATHS ${CUDA_SDK_LIB_DIR})
-#find_library(LIBSHRUTIL_DBG NAMES shrUtils${arch}D shrutil_${CMAKE_SYSTEM_PROCESSOR}D PATHS ${CUDA_SDK_LIB_DIR})
-
-#macro(set_compute_capability cc)
- #       list(APPEND CUDA_NVCC_FLAGS "-gencode=arch=compute_${cc},code=sm_${cc}")
- # $      list(APPEND CUDA_NVCC_FLAGS "-gencode=arch=compute_${cc},code=compute_${cc}")
-#endmacro(set_compute_capability)
-
-#set_compute_capability("20")
+set_compute_capability("20")
 
 
 #Print all variables. Useful for debugging
@@ -52,5 +50,5 @@ add_definitions( -DNCOLS=${NCOLS} )
 #endforeach()
 
 
-add_executable(diffusion diffusion-serial.cpp utils.cpp diffusion-kernel-serial.cpp)
+cuda_add_executable(diffusion diffusion-serial.cpp utils.cpp diffusion-kernel-serial.cpp)
 

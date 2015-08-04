@@ -35,7 +35,7 @@ void printToFile(double grid[NROWS][NCOLS], int step)
     std::ofstream myFile;
     std::stringstream filename;
     filename << "results/temperature.csv." << step;
-    myFile.open(filename.str());
+    myFile.open(filename.str().c_str());
 
     myFile << "x,y,T\n";
     for(int i = 0;i < NROWS;i++)
@@ -55,7 +55,7 @@ void printToFile(std::vector< std::vector<double> > &grid, int step)
     std::ofstream myFile;
     std::stringstream filename;
     filename << "results/temperature.csv." << step;
-    myFile.open(filename.str());
+    myFile.open(filename.str().c_str());
 
     myFile << "x,y,T\n";
     for(int i = 0;i < NROWS;i++)
