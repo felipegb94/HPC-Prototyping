@@ -10,8 +10,8 @@ project(diffusion)
 #set(CUDA_ENABLED 1)
 #set(OPENMP_ENABLED 0)
 
-set(NROWS 100)
-set(NCOLS 100)
+set(NROWS 500)
+set(NCOLS 500)
 
 add_definitions( -DNROWS=${NROWS} )
 add_definitions( -DNCOLS=${NCOLS} )
@@ -52,5 +52,5 @@ add_definitions( -DNCOLS=${NCOLS} )
 #endforeach()
 
 
-add_executable(diffusion diffusion-serial.cpp utils.cpp)
+add_executable(diffusion diffusion-serial.cpp utils.cpp diffusion-kernel-serial.cpp)
 
