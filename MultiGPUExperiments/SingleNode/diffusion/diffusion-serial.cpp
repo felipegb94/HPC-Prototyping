@@ -18,9 +18,12 @@ int main(int argc, char *argv[])
     currGrid[0].assign(NCOLS, initialTemp);
     currGrid[NROWS-1].assign(NCOLS, initialTemp);
     nextGrid[0].assign(NCOLS, initialTemp);
-    nextGrid[NROWS-1].assign(NCOLS, initialTemp);   
+    nextGrid[NROWS-1].assign(NCOLS, initialTemp);  
 
-    numSteps = 200;
+
+    printGrid(currGrid);
+
+    numSteps = 3;
     startRow = 1;
     startCol = 0;
     endRow = NROWS-1 ;
@@ -29,11 +32,8 @@ int main(int argc, char *argv[])
     for(i = 0;i < numSteps;i++)
     {
         std::cout << "------------------Step " << i << "-----------------------" << std::endl;
-        diffuse(currGrid, nextGrid, startRow, startCol, endRow, endCol);
-        if(i%10 == 0)
-        {
-            printToFile(currGrid,i);
-        }
+        diffuse(currGrid, nextGrid, startRow, startCol, endRow, endCol, i);
+
     }
 
 

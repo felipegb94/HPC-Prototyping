@@ -17,4 +17,5 @@ void diffuse(   std::vector< std::vector<double> > &currGrid,
                 int startRow, 
                 int startCol,
                 int endRow,
-                int endCol);
+                int endCol,
+                int currStep);

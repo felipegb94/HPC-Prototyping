@@ -1,9 +1,9 @@
-#include <iostream>
-#include <vector>
+#include <iostream> /* cout , endl */
+#include <vector> /* vector */
 
 
 #include "diffusion-kernel.h"
-
+#include "utils.h"
 
 void calcGrid(std::vector< std::vector<double> > &currGrid, 
               std::vector< std::vector<double> > &nextGrid, 
@@ -125,9 +125,17 @@ void diffuse(std::vector< std::vector<double> > &currGrid,
              int startRow, 
              int startCol,
              int endRow,
-             int endCol)
+             int endCol,
+             int currStep)
 {
+    int numRows = currGrid.size();
+    int numCols = currGrid[0].size();
     calcGrid(currGrid, nextGrid, startRow, startCol, endRow, endCol);
     updateGrid(currGrid, nextGrid, startRow, startCol, endRow, endCol);
+
+    if(currStep%10 == 0)
+    {
+        printToFile(currGrid, currStep);
+    }
 }
 

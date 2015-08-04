@@ -10,8 +10,8 @@ find_package("CUDA")
 #set(CUDA_ENABLED 1)
 #set(OPENMP_ENABLED 0)
 
-set(NROWS 500)
-set(NCOLS 500)
+set(NROWS 4)
+set(NCOLS 3)
 
 add_definitions( -DNROWS=${NROWS} )
 add_definitions( -DNCOLS=${NCOLS} )
@@ -50,5 +50,6 @@ set_compute_capability("20")
 #endforeach()
 
 
-cuda_add_executable(diffusion diffusion-serial.cpp utils.cpp diffusion-kernel-serial.cpp)
+cuda_add_executable(diffusion-serial diffusion-serial.cpp utils.cpp diffusion-kernel-serial.cpp)
+cuda_add_executable(diffusion diffusion-serial.cpp utils.cpp diffusion-kernel-cuda.cu)
 
