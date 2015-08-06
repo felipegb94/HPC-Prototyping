@@ -221,7 +221,7 @@ void calculateArea(const long numRects, double *area) {
     double *deviceAreas;
     double *unifiedAreas;
 
-    float millisecond;
+    float milliseconds;
     int i;
 
 /////////////////////////////// MEMORY ALLOCATION SECTION ////////////////////////////////////////

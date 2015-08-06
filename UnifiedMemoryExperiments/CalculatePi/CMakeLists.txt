@@ -7,9 +7,9 @@ find_package("OpenMP")
 find_package("CUDA")
 
 # Set if we want to use CUDA, OPENMP or neither
-set(CUDA_ENABLED 1)
-set(OPENMP_ENABLED 0)
-set(UNIFIEDMEM_ENABLED 0)
+set(CUDA_ENABLED 0)
+set(OPENMP_ENABLED 1)
+set(UNIFIEDMEM_ENABLED 1)
 
 
 # Disable compile optimizations for gcc and nvcc
@@ -45,14 +45,14 @@ if(CUDA_ENABLED)
         endmacro(set_compute_capability)
 
         set_compute_capability("20")
-        cuda_add_executable(pi pi.cpp pi-kernel.cxx)
+        cuda_add_executable(pi pi.cpp pi-kernel.cu)
     else()
         message("CUDA is enabled but it was not found. Compiling serially")
         set(CUDA_ENABLED 0)
         set(OPENMP_ENABLED 0)
         add_definitions( -DCUDA_ENABLED=${CUDA_ENABLED} )
         add_definitions( -DOPENMP_ENABLED=${OPENMP_ENABLED} )
-        add_executable(pi pi.cpp pi-kernel.cxx)
+        add_executable(pi pi.cpp pi-kernel.cpp)
     endif()
 
 elseif(OPENMP_ENABLED)
@@ -67,11 +67,11 @@ elseif(OPENMP_ENABLED)
         add_definitions( -DCUDA_ENABLED=${CUDA_ENABLED} )
         add_definitions( -DOPENMP_ENABLED=${OPENMP_ENABLED} )
     endif()
-    add_executable(pi pi.cpp pi-kernel.cxx)  
+    add_executable(pi pi.cpp pi-kernel.cpp)  
 
 else()
     message("Neither CUDA or OpenMP are enabled. Compiling Serially")
-    add_executable(pi pi.cpp pi-kernel.cxx)
+    add_executable(pi pi.cpp pi-kernel.cpp)
 endif()
 
 
