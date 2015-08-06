@@ -8,8 +8,8 @@ find_package("CUDA")
 
 # Set if we want to use CUDA, OPENMP or neither
 set(CUDA_ENABLED 0)
-set(OPENMP_ENABLED 1)
-set(UNIFIEDMEM_ENABLED 1)
+set(OPENMP_ENABLED 0)
+set(UNIFIEDMEM_ENABLED 0)
 
 
 # Disable compile optimizations for gcc and nvcc
