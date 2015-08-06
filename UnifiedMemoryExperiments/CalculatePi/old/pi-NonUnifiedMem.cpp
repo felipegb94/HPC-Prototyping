@@ -1,5 +1,6 @@
 /* Pi - CUDA version
  * Author: Aaron Weeden, Shodor, May 2015
+ * Modified By: Felipe Gutierrez
  *
  * Approximate pi using a Left Riemann Sum under a quarter unit circle.
  *

@@ -1,7 +1,7 @@
 #include <math.h>
 //#include <omp.h>
-#include "/home/felipegb94/include/armadillo"
-
+//#include "/home/felipegb94/include/armadillo"
+#include "../include/armadillo"
 arma::mat ttest2(arma::mat group1, arma::mat group2)
 {
 
@@ -25,8 +25,10 @@ arma::mat ttest2(arma::mat group1, arma::mat group2)
 
 int main()
 {
-    std::string dataPath = "/home/felipegb94/data/RawADRC/adrc_raw.arma";
-    std::string permutationsPath = "/home/felipegb94/data/RawADRC/permutations.arma";
+    //std::string dataPath = "/home/felipegb94/data/RawADRC/adrc_raw.arma";
+    //std::string permutationsPath = "/home/felipegb94/data/RawADRC/permutations.arma";
+    std::string dataPath = "../data/RawADRC/adrc_raw.arma";
+    std::string permutationsPath = "../data/RawADRC/permutations.arma";
     int N_g1 = 25;
 
     arma::mat data;
@@ -37,18 +39,20 @@ int main()
     permutations.load(permutationsPath);
     //permutations.save("/Users/felipegb94/sbel/repos/HPC-Prototyping/Algorithms/PermutationTesting_CUDA/data/permutations.csv",arma::csv_ascii);
 
+    int N = data.n_rows; 
+    int num_permutations = permutations.n_rows;
+    arma::mat T = arma::zeros(permutations.n_rows, data.n_cols);
+    arma::mat MaxT = arma::zeros(permutations.n_rows, 1);
 
     std::cout << data.n_rows << std::endl;
     std::cout << data.n_cols << std::endl;
     std::cout << permutations.n_rows << std::endl;
     std::cout << permutations.n_cols << std::endl;
 
+
     /* Do Permutation Testing */
     /* N x V matrix*/
-    int N = data.n_rows; 
-    int num_permutations = permutations.n_rows;
-    arma::mat T = arma::zeros(permutations.n_rows, data.n_cols);
-    arma::mat MaxT = arma::zeros(permutations.n_rows, 1);
+
     /* Permutation loop */
     #pragma omp parallel for
     for(int i = 0;i < num_permutations ;i++ )

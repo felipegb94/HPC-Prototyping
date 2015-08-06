@@ -23,7 +23,6 @@ void diffuse(   std::vector< std::vector<double> > &currGridVector,
     currGrid = gridToArray(currGridVector);
     nextGrid = gridToArray(nextGridVector);
 
-
     if(currStep%10 == 0)
     {
         printToFile(currGrid, numRows, numCols, currStep);

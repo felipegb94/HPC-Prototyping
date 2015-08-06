@@ -5,9 +5,11 @@ project(PermTesting_OpenMP CXX)
 # Armadillo needs to be compiled for C++11 in order to use large matrices
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+find_package(Armadillo REQUIRED)
+include_directories(${ARMADILLO_INCLUDE_DIRS})
 
 # Finda CUDA and OPENMP
-find_package("OpenMP")
+#find_package("OpenMP")
 #find_package("CUDA")
 #find_package(Boost)
 ## Set if we want to use CUDA, OPENMP or neither
@@ -16,10 +18,10 @@ find_package("OpenMP")
 #add_definitions( -DCUDA_ENABLED=${CUDA_ENABLED} )
 #add_definitions( -DOPENMP_ENABLED=${OPENMP_ENABLED} )
 ## If OPENMP was found and it is enabled compile with its flags
-if (OPENMP_FOUND)
-    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-endif()
+#if (OPENMP_FOUND)
+#    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+#    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+#endif()
 #cuda_include_directories(${CUDA_SDK_ROOT_DIR}/common/inc)
 #cuda_include_directories(/opt/cuda/4.1/cuda/include)
 #include_directories(${CUDA_SDK_ROOT_DIR}/common/inc)
@@ -44,7 +46,9 @@ endif()
 #cuda_add_executable(pi pi-cuda-openmp-rectangles.cpp pi-cuda-1.cu)
 
 
-add_executable(PermTesting_OpenMP PermTesting_CPU.cpp)
+#add_executable(PermTesting_OpenMP PermTesting_CPU.cpp)
+add_executable(PermTesting_Matrix PermTesting_Matrix.cpp)
+target_link_libraries(PermTesting_Matrix ${ARMADILLO_LIBRARIES})
 
 #cuda_add_executable(PermTesting_GPU PermTesting_GPU.cpp)
 

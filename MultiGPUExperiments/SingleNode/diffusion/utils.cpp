@@ -22,7 +22,6 @@ double* gridToArray(std::vector< std::vector<double> > &gridVector)
     }
 
     return grid;
-
 }
 
 void printGrid(double grid[NROWS][NCOLS])
