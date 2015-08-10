@@ -7,7 +7,7 @@ find_package("OpenMP")
 find_package("CUDA")
 
 # Set if we want to use CUDA, OPENMP or neither
-set(CUDA_ENABLED 0)
+set(CUDA_ENABLED 1)
 set(OPENMP_ENABLED 0)
 set(UNIFIEDMEM_ENABLED 0)
 
@@ -46,6 +46,8 @@ if(CUDA_ENABLED)
 
         set_compute_capability("20")
         cuda_add_executable(pi pi.cpp pi-kernel.cu)
+        cuda_add_executable(piThrust pi.cpp pi-kernel-useThrust.cu)
+
     else()
         message("CUDA is enabled but it was not found. Compiling serially")
         set(CUDA_ENABLED 0)
@@ -58,6 +60,7 @@ if(CUDA_ENABLED)
 elseif(OPENMP_ENABLED)
     if (OPENMP_FOUND)
         message("OpenMP is enabled and it was found. Compiling with OpenMP flags")
+        message(${OpenMP_C_FLAGS})
         set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
     else() 

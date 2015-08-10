@@ -32,6 +32,8 @@
  */
 #if CUDA_ENABLED
     #include "TimerGPU.h"
+    #include <thrust/host_vector.h>
+    #include <thrust/device_vector.h>
     #include <thrust/reduce.h>
     #include <thrust/system/cuda/execution_policy.h>
     #include <thrust/system/omp/execution_policy.h>
@@ -201,6 +203,9 @@ void calculateArea(const long numRects, double *area) {
     double *deviceAreas;
     double *unifiedAreas;
 
+    thrust::host_vector<double> t_hostAreas;
+    thrust::device_vector<double> t_deviceAreas;
+
     int i;
 
 /////////////////////////////// MEMORY ALLOCATION SECTION ////////////////////////////////////////
@@ -221,7 +226,8 @@ void calculateArea(const long numRects, double *area) {
         err = cudaMallocManaged(&unifiedAreas, numRects * sizeof(double));
     #else
         printf("Unified Memory is NOT Enabled. Allocating using cudaMalloc \n");
-        err = cudaMalloc(&deviceAreas, numRects * sizeof(double));
+        //err = cudaMalloc(&deviceAreas, numRects * sizeof(double));
+        t_deviceAreas = thrust::device_vector<double>(numRects);
     #endif
 
     /* Check for error in device memory allocation */
@@ -254,7 +260,7 @@ void calculateArea(const long numRects, double *area) {
     #if UNIFIEDMEM_ENABLED
         calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), unifiedAreas);
     #else
-        calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), deviceAreas);
+        calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), (double*)thrust::raw_pointer_cast(&t_deviceAreas[0]));
     #endif
     kernelTimer.Stop();
 
@@ -262,7 +268,7 @@ void calculateArea(const long numRects, double *area) {
     #if UNIFIEDMEM_ENABLED
         (*area) = thrust::reduce(thrust::cuda::par, unifiedAreas, unifiedAreas + numRects);
     #else
-        (*area) = thrust::reduce(thrust::cuda::par, deviceAreas, deviceAreas + numRects);
+        (*area) = thrust::reduce(thrust::cuda::par, t_deviceAreas.begin(), t_deviceAreas.end());
     #endif
     reduceTimer.Stop();
     allTimer.Stop();
