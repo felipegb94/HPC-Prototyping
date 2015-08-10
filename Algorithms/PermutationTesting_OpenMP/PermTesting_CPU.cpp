@@ -1,7 +1,9 @@
 #include <math.h>
-//#include <omp.h>
-//#include "/home/felipegb94/include/armadillo"
-#include "../include/armadillo"
+#if OPENMP_ENABLED
+    #include <omp.h>
+#endif
+#include "/home/felipegb94/include/armadillo"
+//#include "../include/armadillo"
 arma::mat ttest2(arma::mat group1, arma::mat group2)
 {
 
@@ -25,10 +27,10 @@ arma::mat ttest2(arma::mat group1, arma::mat group2)
 
 int main()
 {
-    //std::string dataPath = "/home/felipegb94/data/RawADRC/adrc_raw.arma";
-    //std::string permutationsPath = "/home/felipegb94/data/RawADRC/permutations.arma";
-    std::string dataPath = "../data/RawADRC/adrc_raw.arma";
-    std::string permutationsPath = "../data/RawADRC/permutations.arma";
+    std::string dataPath = "/home/felipegb94/data/RawADRC/adrc_raw.arma";
+    std::string permutationsPath = "/home/felipegb94/data/RawADRC/permutations.arma";
+    //std::string dataPath = "../data/RawADRC/adrc_raw.arma";
+    //std::string permutationsPath = "../data/RawADRC/permutations.arma";
     int N_g1 = 25;
 
     arma::mat data;
