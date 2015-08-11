@@ -51,6 +51,8 @@ CUDA_ENABLED 1
 OPENMP_ENABLED 1
 ```
 
+In the GPU versions you can also choose to have the memory used in the program allocated with either `cudaMalloc` or `cudaMallocManaged` (Unified Memory). This is done by setting `UNIFIEDMEMORY_ENABLED` to either 0 or 1 in the `CMakeLists.txt` file.
+
 The following combinations lead to use of OpenMP implementation:
 
 ```
