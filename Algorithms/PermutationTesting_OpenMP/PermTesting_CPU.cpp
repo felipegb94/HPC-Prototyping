@@ -2,6 +2,7 @@
 #if OPENMP_ENABLED
     #include <omp.h>
 #endif
+#define ARMA_64BIT_WORD
 #include "/home/felipegb94/include/armadillo"
 //#include "../include/armadillo"
 arma::mat ttest2(arma::mat group1, arma::mat group2)

@@ -3,6 +3,7 @@
 
 #include <math.h>
 //#include "/home/felipegb94/include/armadillo"
+#define ARMA_64BIT_WORD
 #include "armadillo"
 //#include "../include/armadillo"
 
