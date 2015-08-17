@@ -96,97 +96,97 @@ void calculateAreas(const long numRects, const double width, double *dev_areas)
         // heightSq = 1 - (x*x);
         // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * pow(width,3);
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = threadId * pow(width,3);
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * pow(width,3);
-        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = threadId * pow(width,3);
+        heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = sqrt((float)x) * sqrt((float)x);
-        // heightSq = 1 - (pow(x,4)*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = sqrt((float)x) * sqrt((float)x);
+        heightSq = 1 - (pow(x,4)*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * width;
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = threadId * width;
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
 
-        // x = threadId * width;
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        x = threadId * width;
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
         
-        // x = sqrt((float)threadId) * pow(width,3);
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = sqrt((float)threadId) * pow(width,3);
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * pow(width,3);
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = threadId * pow(width,3);
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * pow(width,3);
-        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = threadId * pow(width,3);
+        heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = sqrt((float)x) * sqrt((float)x);
-        // heightSq = 1 - (pow(x,4)*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = sqrt((float)x) * sqrt((float)x);
+        heightSq = 1 - (pow(x,4)*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * width;
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = threadId * width;
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
 
-        // x = threadId * width;
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        x = threadId * width;
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
         
-        // x = sqrt((float)threadId) * pow(width,3);
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = sqrt((float)threadId) * pow(width,3);
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * pow(width,3);
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = threadId * pow(width,3);
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * pow(width,3);
-        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = threadId * pow(width,3);
+        heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = sqrt((float)x) * sqrt((float)x);
-        // heightSq = 1 - (pow(x,4)*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = sqrt((float)x) * sqrt((float)x);
+        heightSq = 1 - (pow(x,4)*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * width;
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = threadId * width;
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
 
-        // x = threadId * width;
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        x = threadId * width;
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
         
-        // x = sqrt((float)threadId) * pow(width,3);
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = sqrt((float)threadId) * pow(width,3);
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * pow(width,3);
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = threadId * pow(width,3);
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * pow(width,3);
-        // heightSq = 1 - (sqrt((float)x)*pow(width,3));
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));  
+        x = threadId * pow(width,3);
+        heightSq = 1 - (sqrt((float)x)*pow(width,3));
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));  
 
-        // x = sqrt((float)x) * sqrt((float)x);
-        // heightSq = 1 - (pow(x,4)*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = sqrt((float)x) * sqrt((float)x);
+        heightSq = 1 - (pow(x,4)*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
         
-        // x = threadId * width;
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
+        x = threadId * width;
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
 
-        // x = threadId * width;
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
+        x = threadId * width;
+        heightSq = 1 - (x*x);
+        height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
 
 
         
