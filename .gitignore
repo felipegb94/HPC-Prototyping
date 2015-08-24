@@ -7,3 +7,11 @@ armadillo
 Algorithms/PermutationTesting_OpenMP/data/RawADRC/adrc_raw.arma
 Algorithms/PermutationTesting_OpenMP/data/RawADRC/permutations.arma
 ViennaCL-1.7.0
+Algorithms/PermutationTesting_CPU/build
+*.arma
+Algorithms/PermutationTesting_CPU/include/armadillo_bits
+CMakeCache.txt
+*.cmake
+*.bin
+Algorithms/PermutationTesting_GPU/build
+Libraries/ArrayFire/build
