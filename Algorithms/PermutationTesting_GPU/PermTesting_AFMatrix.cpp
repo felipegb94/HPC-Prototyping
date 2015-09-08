@@ -25,14 +25,14 @@ int main()
     std::cout << "Environment Information: " << std::endl;
     af::info();
 
-    std::string dataPath = "/home/felipe/repos/data/TestData/data.mat";
-    std::string dataArmaPath = "/home/felipe/repos/data/TestData/data.arma";
-    std::string permutationsPath = "/home/felipe/repos/data/TestData/permutations.mat";
-    std::string permutationsArmaPath = "/home/felipe/repos/data/TestData/permutations.arma";
-    std::string permutationMatrix1Path = "/home/felipe/repos/data/TestData/Matrix1.mat";
-    std::string permutationMatrix1ArmaPath = "/home/felipe/repos/data/TestData/Matrix1.arma";
-    std::string permutationMatrix2Path = "/home/felipe/repos/data/TestData/Matrix2.mat";
-    std::string permutationMatrix2ArmaPath = "/home/felipe/repos/data/TestData/Matrix2.arma";
+    std::string dataPath = "/home/felipe/data/RawADRC/data.mat";
+    std::string dataArmaPath = "/home/felipe/data/RawADRC/data.arma";
+    std::string permutationsPath = "/home/felipe/data/RawADRC/permutations.mat";
+    std::string permutationsArmaPath = "/home/felipe/data/RawADRC/permutations.arma";
+    std::string permutationMatrix1Path = "/home/felipe/data/RawADRC/Matrix1.mat";
+    std::string permutationMatrix1ArmaPath = "/home/felipe/data/RawADRC/Matrix1.arma";
+    std::string permutationMatrix2Path = "/home/felipe/data/RawADRC/Matrix2.mat";
+    std::string permutationMatrix2ArmaPath = "/home/felipe/data/RawADRC/Matrix2.arma";
 
     arma::mat data;
     arma::mat permutationMatrix1;

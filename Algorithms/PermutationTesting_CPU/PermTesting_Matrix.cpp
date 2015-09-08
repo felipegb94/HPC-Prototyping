@@ -23,14 +23,14 @@ int getIntervalDimension(int nVoxels)
 
 int main()
 {
-    std::string dataPath = "data/data.mat";
-    std::string dataArmaPath = "data/data.arma";
-    std::string permutationsPath = "data/permutations.mat";
-    std::string permutationsArmaPath = "data/permutations.arma";
-    std::string permutationMatrix1Path = "data/Matrix1.mat";
-    std::string permutationMatrix1ArmaPath = "data/Matrix1.arma";
-    std::string permutationMatrix2Path = "data/Matrix2.mat";
-    std::string permutationMatrix2ArmaPath = "data/Matrix2.arma";
+    std::string dataPath = "/home/felipe/data/RawADRC/data.mat";
+    std::string dataArmaPath = "/home/felipe/data/RawADRC/data.arma";
+    std::string permutationsPath = "/home/felipe/data/RawADRC/permutations.mat";
+    std::string permutationsArmaPath = "/home/felipe/data/RawADRC/permutations.arma";
+    std::string permutationMatrix1Path = "/home/felipe/data/RawADRC/Matrix1.mat";
+    std::string permutationMatrix1ArmaPath = "/home/felipe/data/RawADRC/Matrix1.arma";
+    std::string permutationMatrix2Path = "/home/felipe/data/RawADRC/Matrix2.mat";
+    std::string permutationMatrix2ArmaPath = "/home/felipe/data/RawADRC/Matrix2.arma";
 
     int N_g1 = 25;
     int i;
