@@ -5,9 +5,11 @@ project(PermTesting_GPU)
 # Armadillo needs to be compiled for C++11 in order to use large matrices
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 # Find ArrayFire and Armadillo
+#find_package(OpenCL)
 find_package(ArrayFire)
 find_package(Armadillo REQUIRED)
 
+#include_directories(${OpenCL_INCLUDE_DIRS})
 include_directories(${ArrayFire_INCLUDE_DIRS})
 include_directories(${Armadillo_INCLUDE_DIRS})
 

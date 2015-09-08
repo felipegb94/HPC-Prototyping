@@ -22,15 +22,17 @@ int getIntervalDimension(int nVoxels)
 int main()
 {
     std::cout << "Starting Permutation Testing with ArrayFire!" << std::endl;
+    std::cout << "Environment Information: " << std::endl;
+    af::info();
 
-    std::string dataPath = "../../PermutationTesting_CPU/build/data/data.mat";
-    std::string dataArmaPath = "../../PermutationTesting_CPU/build/data/data.arma";
-    std::string permutationsPath = "../../PermutationTesting_CPU/build/data/permutations.mat";
-    std::string permutationsArmaPath = "../../PermutationTesting_CPU/build/data/permutations.arma";
-    std::string permutationMatrix1Path = "../../PermutationTesting_CPU/build/data/Matrix1.mat";
-    std::string permutationMatrix1ArmaPath = "../../PermutationTesting_CPU/build/data/Matrix1.arma";
-    std::string permutationMatrix2Path = "../../PermutationTesting_CPU/build/data/Matrix2.mat";
-    std::string permutationMatrix2ArmaPath = "../../PermutationTesting_CPU/build/data/Matrix2.arma";
+    std::string dataPath = "/home/felipe/repos/data/TestData/data.mat";
+    std::string dataArmaPath = "/home/felipe/repos/data/TestData/data.arma";
+    std::string permutationsPath = "/home/felipe/repos/data/TestData/permutations.mat";
+    std::string permutationsArmaPath = "/home/felipe/repos/data/TestData/permutations.arma";
+    std::string permutationMatrix1Path = "/home/felipe/repos/data/TestData/Matrix1.mat";
+    std::string permutationMatrix1ArmaPath = "/home/felipe/repos/data/TestData/Matrix1.arma";
+    std::string permutationMatrix2Path = "/home/felipe/repos/data/TestData/Matrix2.mat";
+    std::string permutationMatrix2ArmaPath = "/home/felipe/repos/data/TestData/Matrix2.arma";
 
     arma::mat data;
     arma::mat permutationMatrix1;
@@ -82,7 +84,7 @@ int main()
     af::array permutationMatrix2Device(N,nPermutations,permutationMatrix2Host);
 
     int intervalSize = getIntervalDimension(V);
-    intervalSize = intervalSize/2;
+    intervalSize = 1;
     int numPasses = nPermutations/intervalSize;
     std::cout << "Interval Size = " << intervalSize << std::endl;
     std::cout << "Number of Passes = " << numPasses << std::endl;
@@ -93,7 +95,7 @@ int main()
     af::array g1Var(N, intervalSize);
     af::array g2Var(N, intervalSize);
     af::array tStatMatrix(N, intervalSize);
-    af::array MaxT(1,nPermutations);
+    af::array MaxTDevice(1,nPermutations);
 
     int start, end;
     for(int i = 0;i < numPasses;i++)
@@ -109,13 +111,23 @@ int main()
 
         tStatMatrix = (g1Mean - g2Mean) / (af::sqrt((g1Var/N_g1) + (g2Var/N_g2)));
 
-        MaxT(af::seq(start,end)) = af::max(tStatMatrix,0);
+        MaxTDevice(af::seq(start,end)) = af::max(tStatMatrix,0);
 
     }
     
-    af::saveimage("MaxT_ArrayFire_10000.af",MaxT);
+    float * MaxTHost = MaxTDevice.host<float>();
+    //af::saveimage("MaxTDevice_ArrayFire_10000.af",MaxTDevice);
+    //
+    arma::mat MaxT(1,nPermutations);
 
-    af_print(MaxT(af::seq(0,intervalSize-1)));
+    for(int i = 0;i < nPermutations;i++)
+    {
+        MaxT(i) = MaxTHost[i];
+    }
+    MaxT.save("MaxTDevice_ArrayFire_10000.arma");
+    MaxT.save("MaxTDevice_ArrayFire_10000.ascii", arma::raw_ascii);
+
+
     //
     // af::array A(2,2,hA);
     // af_print(A);

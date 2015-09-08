@@ -38,9 +38,10 @@ int main()
     arma::mat data;
     arma::mat dataSquared;
     arma::mat permutations;
-    arma::mat permutationMatrix1;
-    arma::mat permutationMatrix2;
-
+    arma::mat permutationMatrix1Load;
+    arma::mat permutationMatrix2Load;
+    arma::sp_mat permutationMatrix1;
+    arma::sp_mat permutationMatrix2;
     /* Load data that just came from matlab */
     // permutations.load(permutationsPath, arma::raw_ascii);
     // permutationMatrix1.load(permutationMatrix1Path, arma::raw_ascii);
@@ -51,9 +52,11 @@ int main()
 
     data.load(dataArmaPath);
     permutations.load(permutationsArmaPath);
-    permutationMatrix1.load(permutationMatrix1ArmaPath);
-    permutationMatrix2.load(permutationMatrix2ArmaPath);
+    permutationMatrix1Load.load(permutationMatrix1ArmaPath);
+    permutationMatrix2Load.load(permutationMatrix2ArmaPath);
     dataSquared = data % data;
+    permutationMatrix1 = permutationMatrix1Load;
+    permutationMatrix2 = permutationMatrix2Load;
 
     /* Change indexing from matlab to C++ */
 
@@ -114,8 +117,8 @@ int main()
         //MaxT(arma::span(start,end),arma::span::all).print();
     }
 
-    std::string armaFileName = "MaxT_Matrix_10000.arma";
-    std::string asciiFileName = "MaxT_Matrix_10000.ascii";
+    std::string armaFileName = "MaxT_SparseMatrix_10000.arma";
+    std::string asciiFileName = "MaxT_SparseMatrix_10000.ascii";
 
     MaxT.save(armaFileName);
     MaxT.save(asciiFileName, arma::raw_ascii);

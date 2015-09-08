@@ -1,0 +1,14 @@
+To compile:
+  module load cudatoolkit
+  make
+This will create a "hello" executable file, which uses MPI+CUDA
+
+To remove executable and output files:
+  make clean
+
+Request an interactive job with 2 nodes, 16 processors per node,
+and XK (for GPUs):
+  qsub -I -l nodes=2:ppn=16:xk -l walltime=04:00:00
+
+On the interactive job, run with 2 MPI processes, 1 per node:
+  aprun -n 2 -N 1 ./hello
