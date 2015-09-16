@@ -15,3 +15,7 @@ CMakeCache.txt
 *.bin
 Algorithms/PermutationTesting_GPU/build
 Libraries/ArrayFire/build
+Charm++/hello/main.decl.h
+Charm++/hello/main.def.h
+charmrun
+*.o
