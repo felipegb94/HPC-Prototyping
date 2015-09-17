@@ -1,4 +1,5 @@
-CHARMDIR = /Users/felipegb94/sbel/charm
+
+# CHARMDIR is an environment variable
 CHARMC = $(CHARMDIR)/bin/charmc $(OPTS) 
 
 default: all

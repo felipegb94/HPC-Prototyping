@@ -15,4 +15,3 @@ Main::Main(CkArgMsg* msg)
 // appear in the ".ci" file
 Main::Main(CkMigrateMessage* msg) { }
 
-#include "main.def.h" 
