@@ -19,3 +19,6 @@ Charm++/hello/main.decl.h
 Charm++/hello/main.def.h
 charmrun
 *.o
+*.decl.h
+*.def.h
+jacobi

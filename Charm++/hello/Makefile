@@ -1,6 +1,6 @@
 
 # CHARMDIR is an environment variable
-CHARMC = $(CHARMDIR)/bin/charmc $(OPTS) 
+CHARMC = $(CHARMDIR)/bin/charmc 
 
 default: all
 all: hello
