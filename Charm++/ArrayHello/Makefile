@@ -4,7 +4,7 @@ default: all
 all: hello
 
 hello: main.o hello.o
-	$(CHARMC) -language charm++ -o hello main.o hello.o
+	$(CHARMC) -language charm++ -o arrayHello main.o hello.o
 
 main.o: main.cpp main.h main.decl.h main.def.h hello.decl.h
 	$(CHARMC) -o main.o main.cpp

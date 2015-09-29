@@ -29,12 +29,29 @@ If you followied the local setup described above, then there is no need to decla
 CHARMC = $(CHARMDIR)/bin/charmc $(OPTS)
 ```
 
+### The charmrun binary
+
+Whenever a Charm++ program is compiled it produces one extra excutable file called `charmrun`. This binary is used to run the output binary of your Charm++ program in the following way:
+
+```
+./charmrun +p4 ./arrayHello [Input arguments]
+```
+
+The previous command will run the arrayHello program using 4 PE's (processing elements).
+
+### Chare Arrays
+
+The ArrayHello example contains a 1D array example and the Jacobi2D contains a 2D array example. 
+
+
 ## ArrayHello
 ### Elements of the Program
 #### Main Chare
 Purpose of the Main chare is to: Create the other chare objects in the application, initiate the computation, call CkExit() when the calculation is finished.
 
 #### Hello Chare
+
+Elements in the Chare Array. Each chare says hi and initiates the sayHi() command for the next chare in the array. 
 
 ## hello
 

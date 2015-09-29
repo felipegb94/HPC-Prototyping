@@ -65,27 +65,35 @@ void Jacobi::startStep() {
   // Send ghost data to neighbors
 
   // First column to the "thisIndex.x - 1"
-  if (thisIndex.x > 0) {
+  if (thisIndex.x > 0) 
+  {
     for (int i = 0; i < valRows; i++)
+    {
       tmpBuffer[i] = values[1 + ((valCols + 2) * (i + 1))];
-    thisProxy[CkArrayIndex2D(thisIndex.x - 1, thisIndex.y)].eastGhost(valRows, tmpBuffer);
+      thisProxy[CkArrayIndex2D(thisIndex.x - 1, thisIndex.y)].eastGhost(valRows, tmpBuffer);      
+    }
   }
 
   // Last column to the "thisIndex.x + 1"
-  if (thisIndex.x < chareCols - 1) {
+  if (thisIndex.x < chareCols - 1) 
+  {
     for (int i = 0; i < valRows; i++)
+    {
       tmpBuffer[i] = values[valCols + ((valCols + 2) * (i + 1))];
-    thisProxy[CkArrayIndex2D(thisIndex.x + 1, thisIndex.y)].westGhost(valRows, tmpBuffer);
+      thisProxy[CkArrayIndex2D(thisIndex.x + 1, thisIndex.y)].westGhost(valRows, tmpBuffer);
+    }
   }
 
   // First row to the "thisIndex.y - 1"
-  if (thisIndex.y > 0) {
+  if (thisIndex.y > 0) 
+  {
     double* bufferPtr = &(values[(valCols + 2) + 1]);
     thisProxy[CkArrayIndex2D(thisIndex.x, thisIndex.y - 1)].southGhost(valCols, bufferPtr);
   }
  
   // Last row to the "thisIndex.y + 1"
-  if (thisIndex.y < chareRows - 1) {
+  if (thisIndex.y < chareRows - 1) 
+  {
     double* bufferPtr = &(values[((valCols + 2) * valCols) + 1]);
     thisProxy[CkArrayIndex2D(thisIndex.x, thisIndex.y + 1)].northGhost(valCols, bufferPtr);
   }
