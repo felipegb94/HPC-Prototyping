@@ -7,7 +7,7 @@ find_package("OpenMP")
 find_package("CUDA")
 
 # Set if we want to use CUDA, OPENMP or neither
-set(CUDA_ENABLED 0)
+set(CUDA_ENABLED 1)
 set(OPENMP_ENABLED 0)
 set(UNIFIEDMEM_ENABLED 0)
 
@@ -78,7 +78,8 @@ elseif(OPENMP_ENABLED)
         add_definitions( -DCUDA_ENABLED=${CUDA_ENABLED} )
         add_definitions( -DOPENMP_ENABLED=${OPENMP_ENABLED} )
     endif()
-    add_executable(pi pi.cpp pi-kernel.cpp)  
+    add_executable(pi pi.cpp pi-kernel.cpp)
+    add_executable(piUnified pi.cpp pi-kernel-unified.cu)  
 
 else()
     message("Neither CUDA or OpenMP are enabled. Compiling Serially")
