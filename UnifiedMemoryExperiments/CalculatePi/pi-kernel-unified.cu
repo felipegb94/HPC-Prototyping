@@ -90,28 +90,18 @@ void calculateAreas(const long numRects, const double width, double *dev_areas)
         double x = threadId * width;
         double heightSq = 1 - (x*x);
         double height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
-
-        // /* Add Extra computations in order to be able to see the performance difference between CPU and GPU */
-        // x = sqrt((float)kthreadId) * pow(width,3);
-        // heightSq = 1 - (x*x);
-        // height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt((float)heightSq));
-
         dev_areas[threadId] = (width * height); 
     }
 }
 
-void calculateArea(const long numRects, double *area) {
-
-    double *hostAreas;
-    double *deviceAreas;
+void calculateArea(const long numRects, double *area) 
+{
     double *unifiedAreas;
-
     int i;
 
 /////////////////////////////// MEMORY ALLOCATION SECTION ////////////////////////////////////////
 
 /* If CUDA is enabled allocate memory in device either using cudaMalloc or cudaMallocManaged */
-#if CUDA_ENABLED
     cudaError_t err;
 
     if(getGridDim(numRects) >= 65535)
@@ -119,100 +109,36 @@ void calculateArea(const long numRects, double *area) {
         fprintf(stderr, "Error: WAY TOO MANY RECTANGLES. Do you really want to compute more than 4.3979123e+12 rectangles!!!! Please input less rectangles");
         return;
     }
-    std::cout << "Grid Dimensions = " << getGridDim(numRects) << std::endl;
 
-    #if UNIFIEDMEM_ENABLED
-        printf("Unified Memory is Enabled. Allocating using cudaMallocManaged \n");
-        err = cudaMallocManaged(&unifiedAreas, numRects * sizeof(double));
-    #else
-        printf("Unified Memory is NOT Enabled. Allocating using cudaMalloc \n");
-        err = cudaMalloc(&deviceAreas, numRects * sizeof(double));
-    #endif
+    std::cout << "Grid Dimensions = " << getGridDim(numRects) << std::endl;
+    printf("Unified Memory is Enabled. Allocating using cudaMallocManaged \n");
+    err = cudaMallocManaged(&unifiedAreas, numRects * sizeof(double));
 
     /* Check for error in device memory allocation */
     if (err != cudaSuccess) 
     {
         fprintf(stderr, "cudaMalloc or cudaMallocManaged failed: %s\n", cudaGetErrorString(err));
     }
-
-/* If CUDA is not enabled we are running on the CPU either serially or with openmp so we allocate memory in the host */
-#else 
-    hostAreas = (double*)malloc(numRects * sizeof(double));
-    if (hostAreas == NULL) 
-    {
-        fprintf(stderr, "malloc failed!\n");
-    }
-#endif
-
-
+    
 /////////////////////////////// KERNEL CALL SECTION ////////////////////////////////////////
 
 /* If CUDA is enabled do the kernel and reduce call either with unifiedMemory or with device memory*/
-#if CUDA_ENABLED
-    /* Start all cudaEvents so we can record timings */
-    GpuTimer kernelTimer("Kernel");
-    GpuTimer reduceTimer("Reduce");
-    GpuTimer allTimer("All");
-
-    allTimer.Start();
-    kernelTimer.Start();
-    #if UNIFIEDMEM_ENABLED
-        calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), unifiedAreas);
-    #else
-        calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), deviceAreas);
-    #endif
-    kernelTimer.Stop();
-
-    reduceTimer.Start();
-    #if UNIFIEDMEM_ENABLED
-        (*area) = thrust::reduce(thrust::cuda::par, unifiedAreas, unifiedAreas + numRects);
-    #else
-        (*area) = thrust::reduce(thrust::cuda::par, deviceAreas, deviceAreas + numRects);
-    #endif
-    reduceTimer.Stop();
-    allTimer.Stop();
-
-    kernelTimer.print();
-    reduceTimer.print();
-    allTimer.print();
-
-    cudaFree(deviceAreas);
-    cudaFree(unifiedAreas);
 /* If CUDA is not enabled calculateAreas is not a kernel but a normal function. */
-#else 
-    /* This kernel call could also be given unifiedMemory as argument but for organization purposes it is called with hostAreas */
-    CpuTimer kernelTimer("Kernel");
-    CpuTimer reduceTimer("Reduce");
-    CpuTimer allTimer("All");
 
-    allTimer.Start();
-    allTimer.Start_cputimer();
-
-    kernelTimer.Start();
-    kernelTimer.Start_cputimer();
-    calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), hostAreas);
-    kernelTimer.Stop_cputimer();
-    kernelTimer.Stop();
+    calculateAreas KERNEL(numRects) (numRects, (1.0 / numRects), unifiedAreas);
 
     (*area) = 0.0;
-    reduceTimer.Start();
-    reduceTimer.Start_cputimer();
+
+#if CUDA_ENABLED
+    (*area) = thrust::reduce(thrust::cuda::par, unifiedAreas, unifiedAreas + numRects);
+#else
     for (i = 0; i < numRects; i++) 
     {
-        (*area) += hostAreas[i];
+        (*area) += unifiedAreas[i];
     }
-    reduceTimer.Stop_cputimer();
-    reduceTimer.Stop();
-
-    allTimer.Stop_cputimer();
-    allTimer.Stop();
-
-    kernelTimer.print();    
-    reduceTimer.print();    
-    allTimer.print();    
-
-    free(hostAreas);
 #endif
+
+    cudaFree(unifiedAreas);
 
 ///////////////////// GPU OR CPU FREE THE MEMORY ////////////////////
 
