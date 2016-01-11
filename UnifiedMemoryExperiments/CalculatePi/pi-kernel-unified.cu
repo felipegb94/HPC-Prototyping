@@ -87,6 +87,7 @@ void calculateAreas(const long numRects, const double width, double *dev_areas)
     for(int threadId = 0;threadId < numRects;threadId++)
 #endif
     {
+        /* The code inside the loop or kernel is the code that is reused for both the openmp and cuda code*/
         double x = threadId * width;
         double heightSq = 1 - (x*x);
         double height = (heightSq < DBL_EPSILON) ? (0.0) : (sqrt(heightSq));
@@ -104,13 +105,14 @@ void calculateArea(const long numRects, double *area)
         fprintf(stderr, "Error: WAY TOO MANY RECTANGLES. Do you really want to compute more than 4.3979123e+12 rectangles!!!! Please input less rectangles");
         return;
     }
+    std::cout << "Grid Dimensions = " << getGridDim(numRects) << std::endl;
+
 #endif
 /////////////////////////////// MEMORY ALLOCATION SECTION ////////////////////////////////////////
 
 /* If CUDA is enabled allocate memory in device either using cudaMalloc or cudaMallocManaged */
     cudaError_t err;
 
-    std::cout << "Grid Dimensions = " << getGridDim(numRects) << std::endl;
     printf("Unified Memory is Enabled. Allocating using cudaMallocManaged \n");
     err = cudaMallocManaged(&unifiedAreas, numRects * sizeof(double));
 

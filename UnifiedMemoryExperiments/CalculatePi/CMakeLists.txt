@@ -79,7 +79,7 @@ elseif(OPENMP_ENABLED)
         add_definitions( -DOPENMP_ENABLED=${OPENMP_ENABLED} )
     endif()
     add_executable(pi pi.cpp pi-kernel.cpp)
-    add_executable(piUnified pi.cpp pi-kernel-unified.cu)  
+    add_executable(piUnified pi.cpp pi-kernel-unified.cpp)  
 
 else()
     message("Neither CUDA or OpenMP are enabled. Compiling Serially")
